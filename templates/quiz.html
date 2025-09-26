@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mortgage Quiz</title>
+  <style>
+    #timerBar { height:20px; background:lightgreen; transition: width 1s linear; }
+  </style>
+</head>
+<body>
+  <h2>Question {{ qnum }} of {{ total }}</h2>
+  <p>{{ question.q }}</p>
+
+  <form method="post" id="quizForm">
+    {% for opt in question.options %}
+      <label><input type="radio" name="answer" value="{{ opt }}"> {{ opt }}</label><br>
+    {% endfor %}
+    <br>
+    <button type="submit">Next</button>
+  </form>
+
+  <div><strong>Time left: <span id="timerText">30</span> seconds</strong></div>
+  <div id="timerBar"></div>
+
+  <script>
+    let timeLeft = 30;
+    let bar = document.getElementById("timerBar");
+    let form = document.getElementById("quizForm");
+    let timerText = document.getElementById("timerText");
+
+    function updateBar() {
+      bar.style.width = (timeLeft/30*100) + "%";
+      timerText.textContent = timeLeft;
+    }
+
+    let timer = setInterval(() => {
+      timeLeft--;
+      updateBar();
+      if(timeLeft <= 0){
+          clearInterval(timer);
+          form.submit();
+      }
+    }, 1000);
+
+    updateBar();
+  </script>
+</body>
+</html>
