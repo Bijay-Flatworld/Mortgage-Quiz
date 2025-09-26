@@ -1,2 +1,5 @@
 flask
 openpyxl
+msal
+requests
+gunicorn
